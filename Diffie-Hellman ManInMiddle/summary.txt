@@ -1,0 +1,20 @@
+g = 2
+
+key = g ^ random % prime
+
+shaerKey = key ^ random % prime
+
+alice 와 bob 이 통신하지만, 중간에 공유하는 key 값은 내 입력에 따라 공유됨,
+때문에 나는 우선 bob 에게 보내려는 alice 의 key 를 조작하고, 이후에 bob 이 alice 에게 보내려는 key 를 조작하여 mid attack 진행,
+x값이 random 하게 결정되기 때문에 1024번 연산을 해야하는지는 아직 모름
+어차피 결과값만 알면 문제 내에 있는 aes decryper 부르면 되서 상관없나?
+
+성공
+결국에 x값을 알아내는건 어차피 현실적으로 불가능,
+때문에 '나' 라는 중간자를 만들고, 중간자의 x를 설정해 key를 만든 후
+각각 a, b 가 데이터를 보낼 때, 앞의 단계에서 a 와 b 가 보낸 키를 이용해 해독
+
+그니까 x, key 를 구분하고, alice_sk, bob_sk, alice_encrypted, bob_encrypted 를 잘 구분하면 됨
+me 의 x 를 고정하긴 하는데, a 와 b 에게는 g*x mod p 인 키를 전달해야 하고
+a, b 의 sk 는 별로 안햇갈리긴 한데, a 가 보낸 데이터는 b 가 해독하는걸 전재로 보내는거니까
+a_sk 가 아닌 b_sk 로 decrypt 해야하는 그런거?
